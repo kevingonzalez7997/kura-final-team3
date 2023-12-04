@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: d10app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: d10app
+  template:
+    metadata:
+      labels:
+        app: d10app
+    spec:
+      containers:
+      - name: d10app
+        image: kevingonzalez7997/finalapp:latest
+        ports:
+        - name: http
+          containerPort: 5000

@@ -4,7 +4,7 @@ WORKDIR /
 
 COPY . .
 
-WORKDIR /Foodimg2Ing/data
+WORKDIR /data
 
 RUN apt-get update && apt-get install -y curl
 
