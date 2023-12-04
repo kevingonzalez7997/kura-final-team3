@@ -19,7 +19,7 @@ pipeline {
         }
         
         stage('Plan') {
-            agent {label 'awsDeploy'}
+            
             steps {
                 withCredentials([
                     string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
@@ -33,7 +33,6 @@ pipeline {
         }
         
         stage('Apply') {
-            agent {label 'awsDeploy'}
             steps {
                 withCredentials([
                     string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
