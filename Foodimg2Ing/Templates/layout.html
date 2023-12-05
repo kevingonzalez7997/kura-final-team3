@@ -87,7 +87,11 @@
               
           </div>
 
-  {% block home %}{% endblock %}
+    {% block home %}{% endblock %}
+
+      <div hx-get="{{ url_for('latest') }}" hx-trigger="every 2s" hx-target="#content">
+        <div id="content"></div>
+      </div>
 
   {% endblock %}
 

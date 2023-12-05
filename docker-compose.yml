@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web:
+    image: recipe-generator
+    ports:
+      - 5001:5000
+    depends_on:
+      - redis
+      - worker
+  redis:
+    image: redis:7.2.3-alpine3.18
+  worker:
+    image: worker
+    command: celery -A celery_worker.celery_app worker --loglevel=info
+    depends_on:
+      - redis
