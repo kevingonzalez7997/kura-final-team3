@@ -23,6 +23,9 @@ resource "aws_instance" "jenkins_agent" {
   vpc_security_group_ids = [aws_security_group.agent.id]
   key_name = "D9"
   user_data = "${file("agent.sh")}"
+  root_block_device {
+    volume_size = 12  # Set the desired volume size in GB
+  }
   tags = {
     Name = "jenkins_agent"
   }

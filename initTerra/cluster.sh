@@ -11,9 +11,7 @@ subnet_id_private_b=$(terraform output -raw subnet_id_private_b)
 
 # Kuber dir has all necessary files
 cd ../Kuber
-
 ########################## AWS CLI CONFIG ##########################################
-
 # Using the creditians created in jenkins and passing them to aws cli configure 
 # must have this setup to have access to aws account 
 aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
@@ -25,10 +23,10 @@ eksctl create cluster cluster01 --vpc-private-subnets=$subnet_id_private_a,$subn
 
 # apply deployment yaml which create app based on instructions 
 #the service yaml takes care of ports and how traffic will get to the deployment
-kubectl apply -f deployment.yaml && kubectl apply -f service.yaml
+kubectl apply -f deployment.yaml 
+kubectl apply -f service.yaml
 ################################ ALB CONFIG ####################################################
-
-#creates iam provider
+#creates iam provider so that eks can connect to IAM
 eksctl utils associate-iam-oidc-provider --cluster cluster01 --approve
 
 #create policy given the json file , 
@@ -36,17 +34,22 @@ aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-
 
 ### copy arn output.....subnets have been tagged on creation##
 
-## figure out how to add arn here from previous command to fully automate 
-eksctl create iamserviceaccount --cluster=cluster01 --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::288906493057:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve
+## figure out how to add arn here from previous command to fully automate
+# capture the output 
+output=$(eksctl create iamserviceaccount --cluster=cluster01 --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::288906493057:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --approve)
 
+# Extract the ARN from the output using grep or other string manipulation
+arn=$(echo "$output" | jq -r '.Policy.Arn')
 
+## Use varaibale to create iam service
+eksctl create iamserviceaccount --cluster=cluster01 --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn="$arn" --override-existing-serviceaccounts --approve
 ############################# YAML FILES ###############################################
 kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
 
 kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds"
 
-kubectl apply -f v2_4_5_full.yaml
+kubectl apply -f v2_4_7_full.yaml
 
-kubectl apply -f ingressClass.yaml
+kubectl apply -f ingressClass.yaml  
 
 kubectl apply -f ingress.yaml
