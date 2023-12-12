@@ -46,7 +46,7 @@ pipeline {
 
         stage('BuildImage') {
             steps {
-              dir('kura-final-team3') {
+              dir('.') {
                 sh 'docker build --no-cache -t kevingonzalez7997/finalapp .'
               }
             }
