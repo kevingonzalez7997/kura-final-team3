@@ -53,18 +53,4 @@ kubectl apply -f ingressClass.yaml
 sleep 45s
 kubectl apply -f ingress.yaml
 
-#########################################CLOUD WATCH AGENT###############################################
-#To use Container Insights with enhanced observability for Amazon EKS, 
-#you must use the Amazon CloudWatch Observability EKS add-on or the CloudWatch agent. 
 
-#First, set up the necessary permissions by attaching the CloudWatchAgentServerPolicy and AWSXrayWriteOnlyAccess IAM policies to your worker nodes. 
-#role name will be in eks console copy without the arn
-aws iam attach-role-policy \
-  --role-name eksctl-cluster01-cluster-ServiceRole-GSRAVF7Kjmqs \
-  --policy-arn arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy \
-  --policy-arn arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
-
-
-#Enter the following command to install the add-on:
-#ensure cluster name 
-eksctl create-addon --cluster-name cluster01 --addon-name amazon-cloudwatch-observability
