@@ -44,6 +44,21 @@ resource "aws_instance" "jenkins_agent2" {
     Name = "jenkins_agent2"
   }
 }
+
+resource "aws_instance" "jenkins_agent3" {
+  ami           = "ami-053b0d53c279acc90"
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.agent.id]
+  key_name = "D9"
+  user_data = "${file("agent.sh")}"
+  root_block_device {
+    volume_size = 12  # Set the desired volume size in GB
+  }
+  tags = {
+    Name = "jenkins_agent3"
+  }
+}
+
 ###################SECURITY GROUP ##############################
 resource "aws_security_group" "manager" {
     name = "manager"
