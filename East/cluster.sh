@@ -62,3 +62,5 @@ sleep 20s
 kubectl apply -f nginx-deployment.yaml
 sleep 20s
 kubectl apply -f redis-leader-statefulset.yaml
+sleep 20s
+kubectl apply -f celery-deployment.yaml
