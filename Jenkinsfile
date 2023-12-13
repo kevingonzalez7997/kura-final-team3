@@ -47,7 +47,7 @@ pipeline {
 
         stage('BuildImage') {
             steps {
-              dir('Foodimg2Ing') {
+              dir('.') {
                 sh 'docker build --no-cache -t kevingonzalez7997/finalapp .'
               }
             }
@@ -61,7 +61,7 @@ pipeline {
         
         stage('Push') {
             steps {
-              dir('Foodimg2Ing') {
+              dir('.') {
                 sh 'sudo docker push kevingonzalez7997/finalapp'
                 sh 'docker rmi kevingonzalez7997/finalapp:latest'
               }
@@ -75,7 +75,7 @@ pipeline {
                     string(credentialsId: 'AWS_ACCESS_KEY', variable: 'aws_access_key'), 
                     string(credentialsId: 'AWS_SECRET_KEY', variable: 'aws_secret_key')
                 ]) {
-                    sh 'kubectl apply -f deployment.yaml && kubectl apply -f service.yaml' 
+                    sh './clusterw.sh'
                 }
               }
             }
