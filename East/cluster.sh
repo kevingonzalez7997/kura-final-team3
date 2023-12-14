@@ -1,7 +1,14 @@
 #!/bin/bash
+########################## AWS CLI CONFIG ##########################################
+# Using the credentials created in Jenkins and passing them to aws cli configure 
+# must have this setup to have access to AWS account 
+aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+aws configure set region us-east-1
+
 ########################### SUBNET ID ###############################################
 # Retrieve subnet IDs from Terraform
-# Output were created  in terraform file and now saved in variables
+# Output was created in terraform file and now saved in variables
 
 subnet_id_public_a=$(terraform output -raw subnet_id_public_a)
 subnet_id_public_b=$(terraform output -raw subnet_id_public_b)
@@ -13,14 +20,8 @@ vpc_id=$(terraform output -raw d10_vpc_id)
 echo "East vpc id: $vpc_id" > vpc_id.txt
 aws s3 cp vpc_id.txt s3://d10bucket/
 
-# Kuber dir has all necessary files
+# Kuber dir has all the necessary files
 cd ../kuber/
-########################## AWS CLI CONFIG ##########################################
-# Using the creditians created in jenkins and passing them to aws cli configure 
-# must have this setup to have access to aws account 
-aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
-aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
-aws configure set region us-east-1
 ######################### CLUSTER CREATION ###########################################
 #creating a cluster given the subnets id that have been stored in variables
 eksctl create cluster cluster01 --vpc-private-subnets=$subnet_id_private_a,$subnet_id_private_b --vpc-public-subnets=$subnet_id_public_a,$subnet_id_public_b --without-nodegroup
