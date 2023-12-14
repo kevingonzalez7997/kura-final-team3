@@ -43,30 +43,6 @@ pipeline {
                 }
             }
         }
-
-        stage('BuildImage') {
-            steps {
-              dir('.') {
-                sh 'docker build --no-cache -t kevingonzalez7997/finalapp .'
-              }
-            }
-        }
-
-        stage('DockerHubLogin') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
-        
-        stage('Push') {
-            steps {
-              dir('kura-final-team3') {
-                sh 'sudo docker push kevingonzalez7997/finalapp'
-                sh 'docker rmi kevingonzalez7997/finalapp:latest'
-              }
-            }
-        }
-        
       stage('Deployeks') {
             steps {
                 dir('East') {
@@ -76,6 +52,7 @@ pipeline {
                     ]) {
                         
                         // Retrieve subnet IDs from Terraform
+                        sh 'chmod +x ./cluster.sh'
                         sh './cluster.sh'
                     }
                 }
