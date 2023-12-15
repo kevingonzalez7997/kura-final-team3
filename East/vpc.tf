@@ -135,3 +135,11 @@ output "subnet_id_private_b" {
 output "d10_vpc_id" {
   value = aws_vpc.d10_vpc.id
 }
+
+output "vpc_cidr" {
+  value = aws_vpc.d10_vpc.cidr_block
+}
+
+output "private_route_id" {
+  value = aws_route_table.private.id
+}
