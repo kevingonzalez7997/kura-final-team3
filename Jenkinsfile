@@ -45,30 +45,30 @@ pipeline {
         }
 
 
-        stage('BuildImage') {
-            steps {
-              dir('.') {
-                sh 'docker build --no-cache -t kevingonzalez7997/finalapp .'
-              }
-            }
-        }
+        // stage('BuildImage') {
+        //     steps {
+        //       dir('.') {
+        //         sh 'docker build --no-cache -t kevingonzalez7997/finalapp .'
+        //       }
+        //     }
+        // }
 
-        stage('DockerHubLogin') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
+        // stage('DockerHubLogin') {
+        //     steps {
+        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        //     }
+        // }
         
-        stage('Push') {
-            steps {
-              dir('.') {
-                sh 'sudo docker push kevingonzalez7997/finalapp'
-                sh 'docker rmi kevingonzalez7997/finalapp:latest'
-              }
-            }
-        }
+        // stage('Push') {
+        //     steps {
+        //       dir('.') {
+        //         sh 'sudo docker push kevingonzalez7997/finalapp'
+        //         sh 'docker rmi kevingonzalez7997/finalapp:latest'
+        //       }
+        //     }
+        // }
         
-        stage('Deployeks') {
+        stage('Deploy EKS') {
             steps {
               dir('Kuber') {
                 withCredentials([
