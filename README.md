@@ -22,10 +22,6 @@
 ## Purpose
 The Recipe Generator Application is an advanced solution designed to enhance culinary creativity and accessibility, deployed across AWS's East and West regions to ensure high availability and optimal performance. This application's heart is Elastic Kubernetes Service (EKS), which facilitates efficient container orchestration and management, enabling the application to scale seamlessly and maintain robust deployment. The integration of AWS Lambda Functions allows the application to leverage serverless computing capabilities for responsive, event-driven functionality. Monitoring and operational insights are provided through Amazon CloudWatch, ensuring the application's health and performance are constantly overseen. The infrastructure setup, managed through Terraform, employs infrastructure as code principles to achieve reliable and consistent cloud environment deployments. Continuous integration and deployment processes are automated using Jenkins Webhook, enabling rapid and consistent updates. The application utilizes a Redis Database for data handling, which offers high-performance data access and caching, significantly improving response times and overall user experience. Additionally, background job processing is optimized by a Celery Worker, managing asynchronous task queues to maintain application responsiveness. The culmination of these technologies provides an intuitive and engaging platform for users to discover and create recipes, offering a resilient, scalable, and user-friendly tool for culinary enthusiasts at all levels.
 
-
-## Jenkins Infrastructure
-Jenkins stands out as a versatile open-source automation server known for its flexible CI/CD pipelines. With an expansive plugin ecosystem, Jenkins seamlessly integrates with various tools and facilitates distributed builds, optimizing efficiency, especially for large-scale projects. Jenkins' platform independence and active community contribute to its enduring popularity.
-
 # Jenkins Infrastructure
 Jenkins stands out as a versatile open-source automation server known for its flexible CI/CD pipelines. With an expansive plugin ecosystem, Jenkins seamlessly integrates with various tools and facilitates distributed builds, optimizing efficiency, especially for large-scale projects. Jenkins' platform independence and active community contribute to its popularity.
 
@@ -34,17 +30,18 @@ In this deployment, the workload has been distributed to two worker nodes, one p
 - `agent`: Provisions application infrastructure, creates clusters and node groups and applies all required YAML files.
 - `agent2`: Provisions application infrastructure, creates clusters and node groups, applies all required YAML files, and establishes VPC peering.
 
-## Steps
+<details>
+  <summary><strong>Steps</strong></summary>
 
 1. **Install Jenkins:**
    - Execute the `agent.sh` script to automatically install the required files.
 
 2. **Generate Key Pairs:**
-   - Create a new key pair with PEM on AWS EC2, the secret key is required for agent ssh creation
+   - Create a new key pair with PEM on AWS EC2; the secret key is required for agent SSH creation.
    - Save the private key.
 
 3. **Set Up Agents:**
-   - Create a new node in Jenkins(Dashboard -> nodes).
+   - Create a new node in Jenkins (Dashboard -> nodes).
    - Specify the name and location of the code directory.
    - Select "Launch agent via SSH" using the saved private key.
    - The host will be the public IP of the agent instance (agent/agent2).
@@ -55,7 +52,7 @@ In this deployment, the workload has been distributed to two worker nodes, one p
 4. **Configure AWS Credentials:**
    - In Jenkins server:
      - Go to "Manage Jenkins" -> "Credentials" -> "System" -> "Global credentials (unrestricted)".
-     - Create 2 credentials (access and secret key) using "Secret text" one for access key and the secret key.
+     - Create 2 credentials (access and secret key) using "Secret text" - one for access key and the secret key.
 
 5. **Create a Multi-Branch Pipeline:**
    - Create a new Jenkins item and select "Multi-branch pipeline."
@@ -64,6 +61,7 @@ In this deployment, the workload has been distributed to two worker nodes, one p
    - Use your GitHub username and the generated key from GitHub as your credentials.
 
 **Note:** To give Terraform access to the AWS account, both access and secret keys must be included. Since GitHub is the Source Code Management (SCM), this part of the Terraform file cannot be included. Instead, AWS keys will be stored securely in Jenkins.
+</details>
 
 ## Terraform
 Terraform, an open-source Infrastructure as Code (IaC) tool, simplifies infrastructure management with its declarative configuration language. It supports multiple cloud providers and enables efficient provisioning. Due to Terraform's capabilities, the automation of provisioning becomes straightforward, allowing for seamless and consistent deployment of infrastructure resources.
