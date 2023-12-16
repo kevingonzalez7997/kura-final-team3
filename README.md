@@ -26,8 +26,49 @@ The Recipe Generator Application is an advanced solution designed to enhance cul
 ## Jenkins Infrastructure
 Jenkins stands out as a versatile open-source automation server known for its flexible CI/CD pipelines. With an expansive plugin ecosystem, Jenkins seamlessly integrates with various tools and facilitates distributed builds, optimizing efficiency, especially for large-scale projects. Jenkins' platform independence and active community contribute to its enduring popularity.
 
+# Jenkins Infrastructure
+Jenkins stands out as a versatile open-source automation server known for its flexible CI/CD pipelines. With an expansive plugin ecosystem, Jenkins seamlessly integrates with various tools and facilitates distributed builds, optimizing efficiency, especially for large-scale projects. Jenkins' platform independence and active community contribute to its popularity.
+
+In this deployment, the workload has been distributed to two worker nodes, one per region:
+
+- `agent`: Provisions application infrastructure, creates clusters and node groups and applies all required YAML files.
+- `agent2`: Provisions application infrastructure, creates clusters and node groups, applies all required YAML files, and establishes VPC peering.
+
+## Steps
+
+1. **Install Jenkins:**
+   - Execute the `agent.sh` script to automatically install the required files.
+
+2. **Generate Key Pairs:**
+   - Create a new key pair with PEM on AWS EC2, the secret key is required for agent ssh creation
+   - Save the private key.
+
+3. **Set Up Agents:**
+   - Create a new node in Jenkins(Dashboard -> nodes).
+   - Specify the name and location of the code directory.
+   - Select "Launch agent via SSH" using the saved private key.
+   - The host will be the public IP of the agent instance (agent/agent2).
+   - Create credentials by entering the private key directly.
+   - Save and check the log to verify agent status.
+   - Create a second node with the same configuration; the only change should be the public IP.
+
+4. **Configure AWS Credentials:**
+   - In Jenkins server:
+     - Go to "Manage Jenkins" -> "Credentials" -> "System" -> "Global credentials (unrestricted)".
+     - Create 2 credentials (access and secret key) using "Secret text" one for access key and the secret key.
+
+5. **Create a Multi-Branch Pipeline:**
+   - Create a new Jenkins item and select "Multi-branch pipeline."
+   - Configure Jenkins Credentials Provider as needed.
+   - Copy and import the Repository URL where the application source code resides.
+   - Use your GitHub username and the generated key from GitHub as your credentials.
+
+**Note:** To give Terraform access to the AWS account, both access and secret keys must be included. Since GitHub is the Source Code Management (SCM), this part of the Terraform file cannot be included. Instead, AWS keys will be stored securely in Jenkins.
+
 ## Terraform
 Terraform, an open-source Infrastructure as Code (IaC) tool, simplifies infrastructure management with its declarative configuration language. It supports multiple cloud providers and enables efficient provisioning. Due to Terraform's capabilities, the automation of provisioning becomes straightforward, allowing for seamless and consistent deployment of infrastructure resources.
+
+
 
 ## EKS and Kubernetes
 EKS, the managed Kubernetes service from AWS, provides a scalable and secure platform for running containerized applications. Seamlessly integrating with various AWS services, EKS simplifies the deployment and management of containerized workloads.
