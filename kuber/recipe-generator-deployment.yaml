@@ -9,6 +9,8 @@ spec:
       app: recipe-generator
   template:
     metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: "true"
       labels:
         app: recipe-generator
     spec:
