@@ -121,7 +121,7 @@ The manifest files are in [./kubernetes](./kuber) in the main branch and in [./k
 
 ***Cluster architecture***
 
-![cluster infra](./kubernetes-nodes/png)
+![cluster infra](./kubernetes-nodes.png)
 
 Components:
 1. ```kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds"``` 
