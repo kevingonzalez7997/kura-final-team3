@@ -63,10 +63,6 @@ In this deployment, the workload has been distributed to two worker nodes, one p
 **Note:** To give Terraform access to the AWS account, both access and secret keys must be included. Since GitHub is the Source Code Management (SCM), this part of the Terraform file cannot be included. Instead, AWS keys will be stored securely in Jenkins.
 </details>
 
-## Terraform
-Terraform, an open-source Infrastructure as Code (IaC) tool, simplifies infrastructure management with its declarative configuration language. It supports multiple cloud providers and enables efficient provisioning. Due to Terraform's capabilities, the automation of provisioning becomes straightforward, allowing for seamless and consistent deployment of infrastructure resources.
-
-
 
 ## EKS and Kubernetes
 EKS, the managed Kubernetes service from AWS, provides a scalable and secure platform for running containerized applications. Seamlessly integrating with various AWS services, EKS simplifies the deployment and management of containerized workloads.
