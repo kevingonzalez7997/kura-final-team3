@@ -64,6 +64,55 @@ In this deployment, the workload has been distributed to two worker nodes, one p
 </details>
 
 
+## Terraform
+Terraform, an open-source Infrastructure as Code (IaC) tool, simplifies infrastructure management with its declarative configuration language. It supports multiple cloud providers and enables efficient provisioning. Due to Terraform's capabilities, the automation of provisioning becomes straightforward, allowing for seamless and consistent deployment of infrastructure resources.
+
+<details>
+  <summary><strong>Jenkins Environment (jenkins.tf)</strong></summary>
+
+### EC2 (Jenkins Manager)
+- The `jenkins.sh` script automates the installation of the Jenkins application on an EC2 instance.
+
+### EC2 (Agent)
+- An agent is created with 4GB extra storage.
+- The `agent.sh` script installs dependencies for the agent, including Docker, Terraform, AWS CLI, EKSCTL, and kubectl.
+- This agent is tasked with deploying in the east region.
+
+### EC2 (Agent2)
+- Similar to the first agent, this agent is created with 4GB extra storage.
+- The `agent.sh` script installs dependencies for the agent, including Docker, Terraform, AWS CLI, EKSCTL, and kubectl.
+- This agent is created to deploy in the west region.
+</details>
+
+<details>
+  <summary><strong>Application Environment (vpc.tf)</strong></summary>
+
+- A `vpc.tf` file was created for the east and west regions, increasing availability and lowering latency.
+- Components include:
+  - **Virtual Private Cloud (VPC):** The networking framework that manages resources.
+  - **Availability Zones (2 AZs):** Providing redundancy and fault tolerance by distributing resources across different AZs.
+  - **2 Public Subnets**
+  - **2 Private Subnets:** Subnets isolated from the public internet, for sensitive data.
+  - **NAT Gateway:** A network gateway for egress traffic from private subnets to the internet.
+  - **2 Route Tables:** Routing rules for traffic between subnets.
+  - **Internet Gateway**
+  - **NAT Gateway**
+</details>
+
+<details>
+  <summary><strong>Peering Connection (main.tf)</strong></summary>
+
+- Since a Redis database is being utilized to cache recipes, a peering connection is required to sync the database and display the same information regardless of the user's region.
+- Components include:
+  - VPC peering connection
+  - VPC peering connection accepter
+  - Route from east to west
+  - Route from west to east
+  - Security group rule (Port 6379)
+</details>
+</details>
+
+
 ## EKS and Kubernetes
 EKS, the managed Kubernetes service from AWS, provides a scalable and secure platform for running containerized applications. Seamlessly integrating with various AWS services, EKS simplifies the deployment and management of containerized workloads.
 
