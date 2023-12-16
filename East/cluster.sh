@@ -76,5 +76,7 @@ kubectl apply -f redis-leader-statefulset.yaml
 sleep 20s
 kubectl apply -f celery-deployment.yaml
 
+kubectl apply -f recipe-generator-hpa.yaml
+
 eksctl create iamidentitymapping  --region us-east-1 --cluster cluster01  --arn arn:aws:iam::294733426135:role/eks-lambda-role --username admin --group system:masters
 
