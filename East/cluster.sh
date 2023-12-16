@@ -20,9 +20,9 @@ vpc_id=$(terraform output -raw d10_vpc_id)
 vpc_cidr=$(terraform output -raw vpc_cidr)
 vpc_route=$(terraform output -raw private_route_id)
 
-echo "East vpc id: $vpc_id" >> vpc.txt
-echo "East vpc cidr: $vpc_cidr" > vpc.txt
-echo "East vpc route: $vpc_route" > vpc.txt
+echo "East vpc id: $vpc_id" > vpc.txt
+echo "East vpc cidr: $vpc_cidr" >> vpc.txt
+echo "East vpc route: $vpc_route" >> vpc.txt
 
 aws s3 cp vpc.txt s3://d10bucket/
 
@@ -32,7 +32,7 @@ cd ../kuber/
 #creating a cluster given the subnets id that have been stored in variables
 eksctl create cluster cluster01 --vpc-private-subnets=$subnet_id_private_a,$subnet_id_private_b --vpc-public-subnets=$subnet_id_public_a,$subnet_id_public_b --without-nodegroup
 #create cluster of size t2.med
-eksctl create nodegroup --cluster cluster01 --node-type t2.medium --nodes 2 
+eksctl create nodegroup --cluster cluster01 --node-type p2.xlarge --nodes 2 
 # apply deployment yaml which create app based on instructions 
 #the service yaml takes care of ports and how traffic will get to the deployment
 kubectl apply -f recipe-generator-deployment.yaml
