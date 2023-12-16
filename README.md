@@ -113,13 +113,13 @@ Terraform, an open-source Infrastructure as Code (IaC) tool, simplifies infrastr
 </details>
 
 
-###Kubernetes
+## Kubernetes
 
 The manifest files for the kubernetes cluster are executed in each region's pipeline in the DeployEKS stage. The shell files are [cluster.sh](./East/cluster.sh) and [clusterw.sh](!https://github.com/elmorenox/kura-final-team3/blob/west/west/clusterw.sh) and in the [west](!https://github.com/elmorenox/kura-final-team3/tree/west/west) branch.
 
 The manifest files are in [./kubernetes](./kuber) in the main branch and in [./kubernetes](!https://github.com/elmorenox/kura-final-team3/tree/west/kubernetes) in the west branch. 
 
-Cluster architecture
+***Cluster architecture***
 
 ![cluster infra](./kubernetes-nodes/png)
 
@@ -138,12 +138,12 @@ Components:
 11. ```recipe-generator-hpa.yaml``` defines how the Flask recipe generator will be scaled
        
 
-###Docker
+## Docker
 We used Dockerfile to create custom images of the FLask [recipe generator application](./Dockerfile) and the [Celery worker application](./CeleryWorker/Dockerfile) 
 
 These images were manually pushed to personal Docker Hum repositories and referenced the yaml for the deployments
 
-Application Stack
+## Application Stack
 
 The stack for this system is made up four main applications NGINX, Flask, Redis, and Celery.
 
@@ -154,7 +154,7 @@ The stack for this system is made up four main applications NGINX, Flask, Redis,
 
 The Celery worker can be thought of as the cook that waits for order the waiter (redis) cooks the food and returns it back to the waiter (redis where the list of recipes is saved). Here the application would be the customer that orders from the menu defined by the cook.
 
-###Monitoring and Notificaiton
+## Monitoring and Notificaiton
 
 We use the Cloudwatch add on for EKS which allows insights into the containers in the pod. This is manual set up process. We used the 'pod_status_terminated' so that we can know when the Redis leader on the eastern region is terminated. Knowing when the Redis leader is terminated is important because the Pod IP of Redis leader is configured in the configuration for the Redis follwer pod in the west
 
