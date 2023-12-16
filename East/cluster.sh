@@ -44,13 +44,11 @@ eksctl utils associate-iam-oidc-provider --cluster cluster01 --approve
 
 #create policy given the json file 
 # capture the output 
-
 output=$(aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json)
 
 # Extract the ARN from the output using grep or other string manipulation
 arn=$(echo "$output" | jq -r '.Policy.Arn')
 
-## figure out how to add arn here from previous command to fully automate
 ## Use varaibale to create iam service
 eksctl create iamserviceaccount --cluster=cluster01 --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn="$arn" --override-existing-serviceaccounts --approve
 ############################# YAML FILES ###############################################
