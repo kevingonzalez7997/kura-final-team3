@@ -44,5 +44,11 @@ A Dockerfile is a script used to create Docker containers. It contains instructi
 ## Troubleshooting
 
 ## Optimization
+Multi-Cluster Service Discovery: By implementing multi-cluster service discovery, our application architecture has been refined to allow seamless referencing of services by their names, instead of relying on IP addresses. This approach not only simplifies the configuration but also enhances the maintainability and scalability of the application across multiple clusters. It eliminates the need for constant updates whenever service IPs change, thereby reducing overhead and potential for errors.
+
+Screen Reading Feature for Visually Impaired Users: In our commitment to making the application inclusive and accessible, we have integrated a screen reading feature specifically designed for visually impaired users. This feature enables these users to access our diverse range of recipes with ease. By providing auditory descriptions and instructions, the application becomes more user-friendly and accessible to a broader audience, ensuring that everyone can participate in the joy of cooking and recipe discovery.
+
+DNS Resolver with Health Status Check: To ensure high availability and consistent user experience, we've incorporated a DNS resolver equipped with health status checks. This system continuously monitors the health of our services and dynamically routes traffic to the healthiest endpoints. This optimization not only enhances the reliability of the application but also ensures that users experience minimal downtime and receive the fastest possible response times.
+
 
 ## Conclusion
