@@ -113,17 +113,50 @@ Terraform, an open-source Infrastructure as Code (IaC) tool, simplifies infrastr
 </details>
 
 
-## EKS and Kubernetes
-EKS, the managed Kubernetes service from AWS, provides a scalable and secure platform for running containerized applications. Seamlessly integrating with various AWS services, EKS simplifies the deployment and management of containerized workloads.
+###Kubernetes###
 
-Kubernetes, an open-source container orchestration platform, automates the deployment, scaling, and management of containerized applications. Streamlining the development and deployment of microservices, Kubernetes goes beyond orchestration. It can handle the creation of underlying infrastructure components, including EC2 instances and security groups, offering a comprehensive solution for managing containerized workloads.
+The manifest files for the kubernetes cluster are executed in each region's pipeline in the DeployEKS stage. The shell files are [cluster.sh](./East/cluster.sh) and [clusterw.sh](!https://github.com/elmorenox/kura-final-team3/blob/west/west/clusterw.sh) and in the [west](!https://github.com/elmorenox/kura-final-team3/tree/west/west) branch.
 
-## Dockerfile
-A Dockerfile is a script used to create Docker containers. It contains instructions to assemble a Docker image, specifying the base image, application code, dependencies, and configurations. Dockerfiles enable consistent and reproducible builds, ensuring that applications run consistently across different environments.
+The manifest files are in [./kubernetes](./kuber) in the main branch and in [./kubernetes](!https://github.com/elmorenox/kura-final-team3/tree/west/kubernetes) in the west branch. 
 
-## Application Stack
+Cluster architecture
 
-## Monitoring and Notification
+![cluster infra](./kubernetes-nodes/png)
+
+Components:
+1. ```kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller/crds"``` 
+- Dowloads the Custome Resource Definition for the controller that manages ingress resources and load balancers to those ingress
+2. ```IngressClass.yaml``` used for application load balancers
+3. ```v2_4_7_full.yaml``` used to extend the KUbernetes API for to manage the load balancer controller
+4. ```ingress.yaml``` listens for traffic from the load balancer and brings in the traffic to the nodes
+5. ```nginx-config.yaml``` defines the configration file for the nginx proxy deployment
+6. ```nginx-proxy-service.yaml``` listens for traffic from the ingress objects and targets the nginx pods
+7. ```recipe-generator-service.yaml``` listens for traffic from the nginx proxy and targets the Flask application for the recipe generator 
+8. ```nginx-deployment.yaml``` listens for traffic defines how the nginx image will be used
+9. ```redis-leader-stateful.yaml``` defines how the redis leader image on the  cluster in the eastern region will be ued
+10. ```celery-deployment.yaml``` defines how the image for the celery worker will be used
+11. ```recipe-generator-hpa.yaml``` defines how the Flask recipe generator will be scaled
+       
+
+###Docker###
+We used Dockerfile to create custom images of the FLask [recipe generator application](./Dockerfile) and the [Celery worker application](./CeleryWorker/Dockerfile) 
+
+These images were manually pushed to personal Docker Hum repositories and referenced the yaml for the deployments
+
+Application Stack
+
+The stack for this system is made up four main applications NGINX, Flask, Redis, and Celery.
+
+1. Flask is used for the Food2Image application. It is a standard FLask application using Jinja templates for the frontend and views (routes) to the backend. We coded an extra route so that recently recipes and saved to database and presented on the home page
+2. NGINX is used as a proxy in front of the Recipe Generator and helps to cache the homepage to reduce latenxy
+3. Redis is used a database to cache a list of recently generator recipes and their ingridients
+4. Celery is used as a worker that handle the task of writing to the database and helps reduce the responsibilities of the FLask application
+
+The Celery worker can be thought of as the cook that waits for order the waiter (redis) cooks the food and returns it back to the waiter (redis where the list of recipes is saved). Here the application would be the customer that orders from the menu defined by the cook.
+
+###Monitoring and Notificaiton###
+
+We use the Cloudwatch add on for EKS which allows insights into the containers in the pod. This is manual set up process. We used the 'pod_status_terminated' so that we can know when the Redis leader on the eastern region is terminated. Knowing when the Redis leader is terminated is important because the Pod IP of Redis leader is configured in the configuration for the Redis follwer pod in the west
 
 ## Troubleshooting
 
