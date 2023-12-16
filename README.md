@@ -1,36 +1,47 @@
-![ViewCount](https://views.whatilearened.today/views/github/navassherif98/Recipe-Generation-from-Food-Image.svg?cache=remove)
+# Recipe Generation from Food Image D10
+### December 16, 2023
+### Pipelines, Spice, and All Things Nice
 
-# Recipe-Generation-from-Food-Image
+## Table of Contents
+- [Purpose](#purpose)
+- [Demo](#demo)
+- [Jenkins Infrastructure](#jenkins-infrastructure)
+- [Terraform](#terraform)
+- [EKS and Kubernetes](#eks-and-kubernetes)
+- [Dockerfile](#dockerfile)
+- [Application Stack](#application-stack)
+- [Monitoring and Notification](#monitoring-and-notification)
+- [Troubleshooting](#troubleshooting)
+- [Optimization](#optimization)
+- [Conclusion](#conclusion)
 
-### Demo:
+## Demo:
 ![Recipe_Generation gif](https://user-images.githubusercontent.com/55757415/124395585-8d0d0780-dd22-11eb-86fe-3a23d921b608.gif)
+![diagram]()
 
-Are you ever in the situation where you have a mouthwatering picture of a delicious dish but no idea how to recreate it? Look no further! Our "Recipe Generation from Food Images" project harnesses the power of deep learning to provide you with a solution.
+## Purpose
 
-### Overview:
 
-This innovative application uses state-of-the-art deep learning techniques to analyze food images and generate comprehensive cooking recipes. From a simple snapshot of your favorite dish, our system can extract essential information including:
+## Jenkins Infrastructure
+Jenkins stands out as a versatile open-source automation server known for its flexible CI/CD pipelines. With an expansive plugin ecosystem, Jenkins seamlessly integrates with various tools and facilitates distributed builds, optimizing efficiency, especially for large-scale projects. Jenkins' platform independence and active community contribute to its enduring popularity.
 
-**Recipe Title**: A catchy and descriptive title for the dish.
+## Terraform
+Terraform, an open-source Infrastructure as Code (IaC) tool, simplifies infrastructure management with its declarative configuration language. It supports multiple cloud providers and enables efficient provisioning. Due to Terraform's capabilities, the automation of provisioning becomes straightforward, allowing for seamless and consistent deployment of infrastructure resources.
 
-**Ingredients**: A detailed list of all the ingredients needed.
+## EKS and Kubernetes
+EKS, the managed Kubernetes service from AWS, provides a scalable and secure platform for running containerized applications. Seamlessly integrating with various AWS services, EKS simplifies the deployment and management of containerized workloads.
 
-**Instructions**: Step-by-step cooking instructions to help you recreate the dish flawlessly.
+Kubernetes, an open-source container orchestration platform, automates the deployment, scaling, and management of containerized applications. Streamlining the development and deployment of microservices, Kubernetes goes beyond orchestration. It can handle the creation of underlying infrastructure components, including EC2 instances and security groups, offering a comprehensive solution for managing containerized workloads.
 
-### Key Features:
+## Dockerfile
+A Dockerfile is a script used to create Docker containers. It contains instructions to assemble a Docker image, specifying the base image, application code, dependencies, and configurations. Dockerfiles enable consistent and reproducible builds, ensuring that applications run consistently across different environments.
 
-**Deep Learning Magic**: Our model employs cutting-edge computer vision algorithms to identify ingredients and cooking processes within food images.
+## Application Stack
 
-**Natural Language Generation**: It utilizes advanced natural language processing to create coherent and easy-to-follow cooking instructions.
+## Monitoring and Notification
 
-**User-Friendly Interface**: A user-friendly web or mobile interface for hassle-free recipe generation.
+## Troubleshooting
 
-**Endless Culinary Exploration**: Discover new recipes and cuisines by simply snapping a picture of any dish.
+## Optimization
 
-### To run the Code :
-
-1. Open Terminal (cmd)
-2. Install all the required libraries using "pip install -r requirements.txt"
-3. run "python run.py"
-
-You will be getting a localhost link and open that link in your browser 
+## Conclusion
