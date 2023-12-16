@@ -43,7 +43,7 @@ pipeline {
                 }
             }
         }
-      stage('Deployeks') {
+      stage('Deploy EKS') {
             steps {
                 dir('East') {
                     withCredentials([
